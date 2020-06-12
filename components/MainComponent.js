@@ -1,29 +1,66 @@
 import React, { Component } from 'react'
 import Menu from './MenuComponent'
-import { DISHES } from '../shared/dishes'
+import Home from './HomeComponent'
 import DishDetail from './DishDetailComponent'
-import { View } from 'react-native'
+import { View, Platform } from 'react-native'
+import {createStackNavigator, createDrawerNavigator} from 'react-navigation'
 
-class Main extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            dishes: DISHES,
-            selectedDish: null
+const MenuNavigator = createStackNavigator({
+    Menu: {screen: Menu},
+    DishDetail: {screen: DishDetail}
+}, {
+    initialRouteName: 'Menu',
+    navigationOptions: {
+        headerStyle: {
+            backgroundColor:'#512DAB'
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+            color: '#fff'
+
         }
     }
-    onDishSelect = (dishId) => {
-        this.setState({
-            selectedDish: dishId
-        })
-    }
-    render() {
+})
 
-        return (<View>
-            <Menu dishes={this.state.dishes}
-                onPress={(dishId) => this.onDishSelect(dishId)}
-            />
-            <DishDetail dish={this.state.dishes.filter((dish) => dish.id === this.state.selectedDish)[0]} />
+const HomeNavigator = createStackNavigator({
+    Home: {screen: Home},
+}, {
+    navigationOptions: {
+        headerStyle: {
+            backgroundColor:'#512DAB'
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+            color: '#fff'
+
+        }
+    }
+})
+
+const MainNavigator = createDrawerNavigator({
+    Home: {
+        screen: HomeNavigator,
+        navigationOptions: {
+            title: 'Home',
+            drawLabel: 'Home'
+        }
+    },
+    Menu: {
+        screen: MenuNavigator,
+        navigationOptions: {
+            title: 'Menu',
+            drawLabel: 'Menu'
+        }
+    }
+},{
+    drawBackgroundColor: '#D1C4E9'
+})
+
+class Main extends Component {
+   
+    render() {
+        return (<View style={{flex:1, paddingTop: Platform.OS === 'ios' ? 0 : Expo.Constants.statusBarHeight }}>
+            <MainNavigator />
         </View>
         )
     }
