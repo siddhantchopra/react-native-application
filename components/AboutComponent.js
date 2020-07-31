@@ -10,6 +10,11 @@ class About extends Component {
             leaders: LEADERS
         }
     }
+
+    static navigationOptions = {
+        title: 'About Us'
+    }
+
     render() {
         const renderLeaderItem = ({ item, index }) => {
             return (
