@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     drawerImage: {
         margin: 10,
         width: 80,
-        height: 60
+        height: 60,
     }
 })
 export default Main
